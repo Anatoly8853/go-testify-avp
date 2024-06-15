@@ -36,7 +36,7 @@ func TestMainHandlerWhenCountMoreThanTotal(t *testing.T) {
 // Город, который передаётся в параметре city, не поддерживается.
 // Сервис возвращает код ответа 400 и ошибку wrong city value в теле ответа.
 func TestMainHandlerWhenCountMoreThanCiti(t *testing.T) {
-	totalCount := 4
+
 	req := httptest.NewRequest("GET", "/cafe?count=4&city=sochi", nil)
 	responseRecorder := httptest.NewRecorder()
 	handler := http.HandlerFunc(mainHandle)
@@ -45,11 +45,6 @@ func TestMainHandlerWhenCountMoreThanCiti(t *testing.T) {
 	status := responseRecorder.Code
 
 	require.Equal(t, status, http.StatusBadRequest, "%d wrong city value", status)
-
-	body := responseRecorder.Body.String()
-	list := strings.Split(body, ",")
-
-	assert.Equal(t, len(list), totalCount)
 }
 
 // TestMainHandlerWhenCountMoreThanValue.
@@ -75,4 +70,5 @@ func TestMainHandlerWhenCountMoreThanValue(t *testing.T) {
 }
 
 // Спасибо за разъяснения я значит не правильно понял задание по поводу функций тестирования
-// я разобрался? смутило в задании я думаю не один я так понял код ответа 200 и тело ответа не пустое.
+// я разобрался, смутило в задании я думаю не один я так понял код ответа 200 и тело ответа не пустое.
+// в последнем тесте мы выводим в консоль все кафе fmt.Println(responseBody)
