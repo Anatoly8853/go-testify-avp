@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -25,11 +24,13 @@ func TestMainHandlerWhenCountMoreThanTotal(t *testing.T) {
 
 	require.Equal(t, status, http.StatusOK, "%d city value", status)
 
-	body := responseRecorder.Body.String()
+	body := responseRecorder.Body
+	// если body будет nil, то есть ли смысл дальше проверять????
+	assert.NotEmpty(t, body)
 
-	require.NotEmpty(t, body)
+	response := responseRecorder.Body.String()
 
-	list := strings.Split(body, ",")
+	list := strings.Split(response, ",")
 
 	assert.Equal(t, len(list), totalCount)
 
@@ -46,8 +47,8 @@ func TestMainHandlerWhenCountMoreThanCiti(t *testing.T) {
 	handler.ServeHTTP(responseRecorder, req)
 
 	status := responseRecorder.Code
-
-	require.Equal(t, status, http.StatusBadRequest, "%d wrong city value", status)
+	// тут нужно еще проверить ошибку wrong city value в теле ответа?????? или вывести
+	require.Equal(t, status, http.StatusBadRequest, "%d wrong city value = %d", status, http.StatusBadRequest)
 }
 
 // TestMainHandlerWhenCountMoreThanValue.
@@ -65,16 +66,7 @@ func TestMainHandlerWhenCountMoreThanValue(t *testing.T) {
 
 	body := responseRecorder.Body.String()
 
-	require.NotEmpty(t, body)
-
 	list := strings.Split(body, ",")
-
-	responseBody := responseRecorder.Body.String()
-	fmt.Println(responseBody)
 
 	require.Equal(t, len(list), totalCount)
 }
-
-// Спасибо за разъяснения я значит не правильно понял задание по поводу функций тестирования
-// я разобрался, смутило в задании я думаю не один я так понял код ответа 200 и тело ответа не пустое.
-// в последнем тесте мы выводим в консоль все кафе fmt.Println(responseBody)
