@@ -26,6 +26,9 @@ func TestMainHandlerWhenCountMoreThanTotal(t *testing.T) {
 	require.Equal(t, status, http.StatusOK, "%d city value", status)
 
 	body := responseRecorder.Body.String()
+
+	require.NotEmpty(t, body)
+
 	list := strings.Split(body, ",")
 
 	assert.Equal(t, len(list), totalCount)
@@ -61,6 +64,9 @@ func TestMainHandlerWhenCountMoreThanValue(t *testing.T) {
 	require.Equal(t, status, http.StatusOK, "%d city value", status)
 
 	body := responseRecorder.Body.String()
+
+	require.NotEmpty(t, body)
+
 	list := strings.Split(body, ",")
 
 	responseBody := responseRecorder.Body.String()
