@@ -47,7 +47,9 @@ func TestMainHandlerWhenCountMoreThanCiti(t *testing.T) {
 	handler.ServeHTTP(responseRecorder, req)
 
 	status := responseRecorder.Code
-	// тут нужно еще проверить ошибку wrong city value в теле ответа?????? или вывести
+
+	assert.Equal(t, responseRecorder.Body.String(), "wrong city value")
+
 	require.Equal(t, status, http.StatusBadRequest, "%d wrong city value = %d", status, http.StatusBadRequest)
 }
 
